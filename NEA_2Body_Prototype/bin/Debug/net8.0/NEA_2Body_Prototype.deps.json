@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "NEA_2Body_Prototype/1.0.0": {
+        "runtime": {
+          "NEA_2Body_Prototype.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NEA_2Body_Prototype/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
