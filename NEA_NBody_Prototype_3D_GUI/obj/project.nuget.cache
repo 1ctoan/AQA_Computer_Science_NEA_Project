@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "XvSGEoyFoKU=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\deniz\\OneDrive - Hills Road Sixth Form College\\A-Level\\Computer Science\\NEA\\CODE\\Protoypes\\NEA_NBody_Prototype_3D_GUI\\NEA_NBody_Prototype_3D_GUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\deniz\\.nuget\\packages\\raylib-cs\\8.1.0\\raylib-cs.8.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
