@@ -33,9 +33,11 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
             // set it here as it needs to change
             mouseSensitivity = 0.003f; // default radians per pixel
 
-            // initialised as empty values
-            yaw = 0;
-            pitch = 0;
+            // Values initialised so that camera target is always (0, 0, 0) at the start
+            Vector3 direction = Vector3.Normalize(Vector3.Zero - position);
+            // reversing the normal equations to get this
+            yaw = MathF.Atan2(direction.Z, direction.X);
+            pitch = MathF.Asin(direction.Y);
 
             // prepaing the camera object
             camera = new Camera3D(

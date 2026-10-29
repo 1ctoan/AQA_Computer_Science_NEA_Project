@@ -10,15 +10,16 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
         // creates the camera and simulation objects as fields
         FreeCamera freeCamera = new FreeCamera();
         Simulation simulation = new Simulation();
+        ReverseSimCircularStack stack = new ReverseSimCircularStack(10800); // an array with enough storage to rewind the simulator for 3 minutes.
 
         private bool simIsPaused = true;
         private bool menuIsOpen = false;
 
         private double simTime = 0;
 
-        private double calculationsPerFrame = 8;
-        private const double MaxSimSpeed = 1024;
-        private const double MinSimSpeed = 1;
+        private int calculationsPerFrame = 8;
+        private const int MaxSimSpeed = 1024;
+        private const int MinSimSpeed = 1;
 
         private const float MaxFontSize = 40;
         private const float MinFontSize = 1;
@@ -46,7 +47,7 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
             }
             CloseWindow(); // closes the window and the openGl context terminal
         }
-       
+
         private void HandleInputs()
         {
             if (IsKeyPressed(KeyboardKey.F11))
@@ -70,11 +71,22 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
             }
 
             calculationsPerFrame = Math.Clamp(calculationsPerFrame, MinSimSpeed, MaxSimSpeed); // limit the sim speed to a certain number of values
-        
+
             if (IsKeyPressed(KeyboardKey.Tab))
             {
                 MenuOpen();
             }
+
+            if (IsKeyDown(KeyboardKey.Left))
+            {
+                simIsPaused = true;
+                if (!stack.CheckStackIsEmpty())
+                {
+                    simTime = simulation.RestoreSnapshot(stack.Pop());
+                }
+
+            }
+
         }
 
         private void Update()
@@ -89,11 +101,12 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
                 return; // skips the rest of the method, so stops calling the simulator
             }
 
+            stack.Push(simulation.MakeNewSnapshot(simTime));
+
             for (int i = 0; i < calculationsPerFrame; i++) // speeds up the sim so that it doesnt take ages for an orbit
             {
-                simulation.update();
+                simulation.Update();
             }
-
             simTime += simulation.dTime * calculationsPerFrame; // makes the time accurate with the new sped up version
         }
 
@@ -125,6 +138,7 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
 
             Draw3D();
             DrawBodyLabels();
+            if (menuIsOpen) { DrawSideBar(); }
             DrawHUD();
 
             EndDrawing();
@@ -177,7 +191,7 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
                 // creating a new vector for the labels position that has the same x and z values as the body its assigned to
                 // The y value of the label is calculated by adding on the radius of the body in the scene (to prevent it from clipping)
                 // and multipling it the radius by 1.5 (to keep it consistent with all sizes of bodies)
-                Vector3 labelPosition = new Vector3(bodyPosition.X, bodyPosition.Y + (bodyRadius * 1.5f), bodyPosition.Z);
+                Vector3 labelPosition = new Vector3(bodyPosition.X, bodyPosition.Y + (bodyRadius * 2f), bodyPosition.Z);
                 
                 // Finding the vector between the label and the camera
                 Vector3 vectorToLabel = labelPosition - camera.Position;
@@ -211,14 +225,58 @@ namespace NEA_NBody_3D_2D_GUI_Protoype
 
         private void DrawHUD()
         {
-            DrawText($"Speed : {freeCamera.CameraSpeed:F2}\n" +
-               $"Simulation time : {simTime/86400:F2} days\n" +
-               $"Simulation Speed : {calculationsPerFrame}x", 20, 20, 30, Color.SkyBlue);
+            int HUDfontSize = GetScreenHeight() / 40;
+            HUDfontSize = Math.Clamp(HUDfontSize, 15, 30);
+
+            int screenMargin = GetScreenWidth() / 60;
+
+            int lineSpacing = GetScreenHeight() / 28;
+            int textYposition = 5;
+
+            DrawText($"Speed : {freeCamera.CameraSpeed:F2}", screenMargin, textYposition, HUDfontSize, Color.SkyBlue);
+            textYposition += lineSpacing;
+
+            DrawText($"Simulation time : {simTime / 86400:F2} days", screenMargin, textYposition, HUDfontSize, Color.SkyBlue);
+            textYposition += lineSpacing;
+
+            DrawText($"Simulation Speed : {calculationsPerFrame}x", screenMargin, textYposition, HUDfontSize, Color.SkyBlue);
 
             if (simIsPaused)
             {
-                DrawText("PAUSED", 20, 115, 30, Color.White);
+                FloatingCentreText("PAUSED", HUDfontSize);
             }
+
+        }
+        
+        private void FloatingCentreText(string message, int fontSize)
+        {
+            int textFont = fontSize * 2;
+            float textWidth = MeasureText(message, textFont);
+            float pauseXPos = GetScreenWidth() / 2 - (textWidth / 2);
+            float pauseYPos = GetScreenHeight() - GetScreenHeight() / 10;
+
+            DrawText(message, (int)pauseXPos, (int)pauseYPos, textFont, Color.White);
+        }
+
+        private void DrawSideBar()
+        {
+            DrawRectangle(GetSideBarPosition(), 0, GetSideBarWidth(), GetScreenHeight(), new Color(20, 20, 30, 200));
+
+           
+        }
+
+        private int GetSideBarWidth()
+        {
+            int sideBarWidth = GetScreenWidth() / 5;
+            sideBarWidth = Math.Max(sideBarWidth, 200);
+            return sideBarWidth;
+        }
+
+        private int GetSideBarPosition()
+        {
+            int sideBarWidth = GetSideBarWidth();
+            int sideBarPosition = GetScreenWidth() - sideBarWidth;
+            return sideBarPosition;
         }
 
     }
