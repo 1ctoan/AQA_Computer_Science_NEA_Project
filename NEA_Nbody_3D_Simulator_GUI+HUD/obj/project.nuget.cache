@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "nwT5+6lNrnA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\deniz\\OneDrive - Hills Road Sixth Form College\\A-Level\\Computer Science\\NEA\\CODE\\Protoypes\\NEA_Nbody_3D_Simulator_GUI+HUD\\NEA_Nbody_3D_Simulator_GUI+HUD.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\deniz\\.nuget\\packages\\raylib-cs\\8.1.0\\raylib-cs.8.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
