@@ -16,20 +16,23 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
         public Simulation()
         {
             // Create the predefined objects for the bodies
-            // name, mass (kg), color, radius (m), currentXPos, currentYPos, currentZPos, currentXVel, currentYVel, currentZVel)
+            // name, mass (kg), radius (m), Colour, currentXPos, currentYPos, currentZPos, currentXVel, currentYVel, currentZVel)
+           
+            AddBody("Sun", 1.989e30, 6.957e8f, Color.White, 0, 0, 0, 0, 0, 0);
 
-            AddBody("Earth", 5.972e24, 6.371e6f, Color.Blue, 1.496e11, 0, 0, 0, 0, 29800); // earth object
-            //AddBody("Sun", 1.989e30, 6.957e8f, Color.White, 0, 0, 0, 0, 0, 0); // sun object
-            AddBody("Black Hole", 5e+30, 5e5f, Color.Black, 0, 0, 0, 0, 0, 0); // earth object
-            
-            AddBody("Mars", 6.417e23, 3.39e6f, Color.Orange, 0, 0, 1.5e11, 0, 40000, 0);
-            AddBody("Jupiter", 1.89e27, 6.99e7f, Color.Brown, -2.78e11, 0, 0, 0, 30000, 25000);
+            AddBody("Mercury", 3.301e23, 2.4397e6f, Color.Gray, 5.791e10, 0, 0, 0, 0, 47870);
+            AddBody("Venus", 4.867e24, 6.0518e6f, Color.Orange, 1.082e11, 0, 0, 0, 0, 35020);
+            AddBody("Earth", 5.972e24, 6.371e6f, Color.Blue, 1.496e11, 0, 0, 0, 0, 29780);
+            AddBody("Mars", 6.417e23, 3.3895e6f, Color.Red, 2.279e11, 0, 0, 0, 0, 24070);
 
-
+            AddBody("Jupiter", 1.898e27, 6.9911e7f, Color.Brown, 7.785e11, 0, 0, 0, 0, 13070);
+            AddBody("Saturn", 5.683e26, 5.8232e7f, Color.Gold, 1.434e12, 0, 0, 0, 0, 9680);
+            AddBody("Uranus", 8.681e25, 2.5362e7f, Color.SkyBlue, 2.871e12, 0, 0, 0, 0, 6800);
+            AddBody("Neptune", 1.024e26, 2.4622e7f, Color.DarkBlue, 4.495e12, 0, 0, 0, 0, 5430);
         }
 
         // add new bodies by calling functions and sending in values using a parameter
-        public void AddBody(string name, double mass, float radius, Color bodyColour,
+        public void AddBody(string name, double mass, double radius, Color bodyColour,
             double currentXPos, double currentYPos, double currentZPos,
             double currentXVel, double currentYVel, double currentZVel)
         {
@@ -64,7 +67,6 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
                     bodies[i].CurrentXPos, bodies[i].CurrentYPos, bodies[i].CurrentZPos,
                     bodies[i].CurrentXVel, bodies[i].CurrentYVel, bodies[i].CurrentZVel);
             }
-
             return new SimulationSceneSnapshot(simTime, bodyStates);
         }
 
@@ -76,6 +78,8 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
             {
                 Body body = bodyCatalogue[bodyState.BodyID];
                 // update values for each body that was in the dictionary
+                body.Mass = bodyState.Mass;
+
                 body.CurrentXPos = bodyState.CurrentXPos;
                 body.CurrentYPos = bodyState.CurrentYPos;
                 body.CurrentZPos = bodyState.CurrentZPos;

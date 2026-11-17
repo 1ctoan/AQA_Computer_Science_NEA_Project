@@ -79,7 +79,6 @@
                     double zAcceleration = (GravitationalConstant * massB * dZ) / distanceCubed;
                     zResultantAcceleration += zAcceleration;
                 }
-
                 // 4) Calculate VELOCITIES in all planes using v = u + at
                 double xNewVelocity = xVelA + (xResultantAcceleration * dTime);
                 double yNewVelocity = yVelA + (yResultantAcceleration * dTime);
@@ -104,7 +103,6 @@
                 newYPositions[i] = yNewPosition;
                 newZPositions[i] = zNewPosition;
             }
-
             // Loop to upload all updated data back into the bodies
             for (int i = 0; i < bodies.Count; i++)
             {
@@ -121,9 +119,6 @@
                 bodies[i].CurrentYPos = newYPositions[i];
                 bodies[i].CurrentZPos = newZPositions[i];
             }
-
         }
-
     }
-
 }

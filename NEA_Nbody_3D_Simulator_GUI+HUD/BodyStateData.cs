@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NEA_Nbody_3D_Simulator_GUI_HUD
+﻿namespace NEA_Nbody_3D_Simulator_GUI_HUD
 {
     internal class BodyStateData
     {   
@@ -35,5 +29,7 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
             CurrentZVel = currentZVel;
 
         }
+
     }
+
 }

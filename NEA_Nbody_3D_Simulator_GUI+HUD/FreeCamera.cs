@@ -6,7 +6,6 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
 {
     internal class FreeCamera
     {
-        // setting up constants and fields
         private Vector3 position;
 
         private float yaw; // looking left and right
@@ -18,10 +17,10 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
         private const float MaxPitch = 89.9f * MathF.PI / 180; // a value just below 90 degrees in radians
         private Vector3 worldUp = new Vector3(0, 1, 0); // to calculate left right strafing
 
-        private const float CameraSpeedDefault = 100f;
-        private const float MaxSpeed = 1000f;
+        private const float CameraSpeedDefault = 1000f;
+        private const float MaxSpeed = 7000f;
         private const float MinSpeed = 0.1f;
-        private const float SpeedChangeInterval = 1.2f;
+        private const float SpeedChangeInterval = 1.1f;
 
         private Camera3D camera; // camera struct or objcect from raylib
 
@@ -127,7 +126,6 @@ namespace NEA_Nbody_3D_Simulator_GUI_HUD
                 position += moveDirection * cameraSpeed * changeInTime; // update the position using the speed and time in the scene
                 // this means that the simulation will play out the same no matter the performance of the computer its running on
             }
-
             camera.Target = position + forward;
             camera.Position = position;
         }
